@@ -2,7 +2,7 @@ import React from 'react'
 import Accordion from 'react-bootstrap/Accordion';
 import AcordionItemLecture from './AcordionItemLecture';
 
-export default function AcordionItem({eventKey, header, item}) {
+export default function AcordionItem({eventKey, header}) {
     return (
         <Accordion.Item eventKey={eventKey}>
             <Accordion.Header>{header}</Accordion.Header>

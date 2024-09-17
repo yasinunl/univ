@@ -1,14 +1,9 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Container } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
 import AcordionItem from './AcordionItem';
-import { useLocation } from 'react-router-dom';
 
-export default function AccordionList({item}) {
-    const location = useLocation();
-    useEffect(()=>{
-        console.log(location.state)
-    },[])
+export default function AccordionList() {
     return (
         <Container>
             <Accordion defaultActiveKey={['-1']} alwaysOpen>

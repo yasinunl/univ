@@ -1,7 +1,7 @@
 import React from 'react'
 import Accordion from 'react-bootstrap/Accordion';
-import YouTubePlayer from './YouTubePlayer';
-export default function AcordionItemLecture({eventKey, header, item}) {
+//import YouTubePlayer from './YouTubePlayer';
+export default function AcordionItemLecture({eventKey, header}) {
     return (
         <Accordion.Item eventKey={eventKey}>
             <Accordion.Header>{header}</Accordion.Header>

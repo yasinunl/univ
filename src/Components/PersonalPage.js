@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Button, Container, Row, Col, Dropdown, DropdownButton, ListGroup, Card } from 'react-bootstrap';
+import { Form, Button, Container, Col, Dropdown, DropdownButton, ListGroup, Card } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const PersonalPage = () => {

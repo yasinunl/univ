@@ -13,13 +13,14 @@ export default function PersonalLogin({setLoginPage}) {
     const [mail, setMail] = useState("")
     const [pass, setPass] = useState("")
     const handleUserLogin = (e) => {
+        console.log(loginUser)
         e.preventDefault();
         let loggedIn = false;
         if(mail === "" || mail === " " || pass === "" || pass === " "){
             alert("E-mail ve şifre alanları boş olamaz");
             return;
         }
-        user.map((item)=>{
+        user.forEach((item)=>{
             if(item.mail === mail && item.pass === pass){
                 loggedIn = true;
                 setLoginUser(item);
