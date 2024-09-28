@@ -17,7 +17,7 @@ export default function AccordionList() {
         if(!isLoggedIn){
             navigate("/");
         }
-        const user = location.state.item;
+        const user = location.state.item && location.state.item;
         if (Object.keys(user)[0] === "user") {
             const fetchData = async () => {
                 const token = await loginData(user.user);
@@ -45,8 +45,7 @@ export default function AccordionList() {
             } else
                 setSection(user.token.section.courses)
         }
-    }, [])
-    useEffect(() => { console.log(section) }, [section])
+    }, [isLoggedIn, navigate, location.state.item])
     return (
         <Container>
             <Accordion defaultActiveKey={['-1']} alwaysOpen>

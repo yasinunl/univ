@@ -35,7 +35,7 @@ export default function PersonalAccordionList() {
         if(!isLoggedIn){
           navigate("/");
       }
-      },[]);
+      },[isLoggedIn, navigate]);
     return (
         <><Button className="mb-3 mt-3" onClick={handleAddClick}>Ekle</Button>
         <Accordion defaultActiveKey="0">
