@@ -1,37 +1,31 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Button, Form, ListGroup } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom';
+import { loginData } from '../Service/UserService';
+import { AuthContext } from '../auth/auth';
 
-export default function StudentLogin({setLoginPage}) {
+export default function StudentLogin({ setLoginPage }) {
+    const { login } = useContext(AuthContext);
     const navigate = useNavigate();
-    const [loginUser, setLoginUser] = useState({});
-    const [user] = useState([
-        {"mail": "ysn@gmail.com",
-            "pass": "1234",
-        }
-    ]);
-    const [mail, setMail] = useState("")
     const [pass, setPass] = useState("")
     const handleUserLogin = (e) => {
-        console.log(loginUser)
-        let loggedIn = false;
-        if(mail === "" || mail === " " || pass === "" || pass === " "){
+        if (pass === "" || pass === " ") {
             alert("E-mail ve şifre alanları boş olamaz");
             return;
         }
-        user.forEach((item)=>{
-            if(item.mail === mail && item.pass === pass){
-                loggedIn = true;
-                setLoginUser(item);
+        const fetchData = async () => {
+            const token = await loginData(pass);
+            if (token == null) return;
+            login(token);
+            if(token !== "failed"){
+                navigate("/student/lect", {state : {item : {token}}});
+            }else{
+                alert("E-mail veya şifre hatalı. Tekrar deneyin");
+                setPass("");
             }
-        });
-        if(loggedIn){
-            navigate("/student/lect", {state : {item : {mail,pass}}});
-        }else{
-            alert("E-mail veya şifre hatalı. Tekrar deneyin");
-            setMail("");
-            setPass("");
         }
+        fetchData();
+        
     }
     return (<>
         <Form onSubmit={handleUserLogin}>
@@ -43,27 +37,19 @@ export default function StudentLogin({setLoginPage}) {
                 </ListGroup.Item>
             </ListGroup>
             <Form.Group>
-                <Form.Control type="email" placeholder="Enter email" value={mail} onChange={(e) => setMail(e.target.value)}
-                onKeyPress = {event => {
-                    if (event.key === "Enter") {
-                      handleUserLogin(event);
-                    }
-                  }}/>
-            </Form.Group>
-            <Form.Group>
                 <Form.Control type="password" placeholder="Password" style={{ marginTop: "15px" }} value={pass} onChange={(e) => setPass(e.target.value)}
-                onKeyPress = {event => {
-                    if (event.key === "Enter") {
-                      handleUserLogin(event);
-                    }
-                  }}/>
+                    onKeyPress={event => {
+                        if (event.key === "Enter") {
+                            handleUserLogin(event);
+                        }
+                    }} />
             </Form.Group>
             <ListGroup variant='flush' style={{ marginTop: "10px" }}>
                 <ListGroup.Item>
                     <Button variant="button" style={{ width: "100%", height: "100%" }} onClick={handleUserLogin}>Giriş Yap</Button>
                 </ListGroup.Item>
                 <ListGroup.Item>
-                    <Button variant="button" style={{ width: "100%", height: "100%" }} onClick={()=>{setLoginPage(0)}}>{'<- '}Geri Dön</Button>
+                    <Button variant="button" style={{ width: "100%", height: "100%" }} onClick={() => { setLoginPage(0) }}>{'<- '}Geri Dön</Button>
                 </ListGroup.Item>
             </ListGroup>
         </Form>

@@ -1,26 +1,19 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import Dropdown from 'react-bootstrap/Dropdown';
+import { AuthContext } from '../auth/auth';
+import { useNavigate } from 'react-router-dom';
 
 export default function NavbarTheme() {
+    const { logout, isLoggedIn } = useContext(AuthContext);
+    const navigate = useNavigate();
+
     return (
         <>
             <Navbar bg="dark" variant="dark">
                 <Container>
-                    <Navbar.Brand href="#home">Universite Adı</Navbar.Brand>
-                    <Nav>
-                        <Dropdown>
-                            <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                                İsim Soyisim
-                            </Dropdown.Toggle>
-
-                            <Dropdown.Menu >
-                                <Dropdown.Item href="#/action-1">Çıkış yap</Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
-                    </Nav>
+                    <Navbar.Brand href="#home">University Of University</Navbar.Brand>
+                    {isLoggedIn && <Navbar.Brand href='#' onClick={() => { logout(); navigate("/") }}>Çıkış Yap</Navbar.Brand>}
                 </Container>
             </Navbar>
         </>

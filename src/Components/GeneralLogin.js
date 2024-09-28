@@ -1,7 +1,16 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Button, ListGroup } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../auth/auth';
 
 export default function GeneralLogin({setLoginPage}) {
+  const { isLoggedIn, user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  useEffect(()=>{
+    if(isLoggedIn){
+      navigate("/student/lect", {state : {item : {user}}});
+    }
+  },[])
   return (
     <ListGroup variant="flush">
           <ListGroup.Item>

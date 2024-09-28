@@ -1,38 +1,34 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Button, Form, ListGroup } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../auth/auth';
+import { loginDataAdmin } from '../Service/UserService';
+import { getAllSection } from '../Service/SectionService';
 
 export default function PersonalLogin({setLoginPage}) {
+    const { login } = useContext(AuthContext);
     const navigate = useNavigate();
-    const [loginUser, setLoginUser] = useState({});
-    const [user] = useState([
-        {"mail": "ysn@gmail.com",
-            "pass": "1234",
-        }
-    ]);
-    const [mail, setMail] = useState("")
     const [pass, setPass] = useState("")
     const handleUserLogin = (e) => {
-        console.log(loginUser)
-        e.preventDefault();
-        let loggedIn = false;
-        if(mail === "" || mail === " " || pass === "" || pass === " "){
+        if (pass === "" || pass === " ") {
             alert("E-mail ve şifre alanları boş olamaz");
             return;
         }
-        user.forEach((item)=>{
-            if(item.mail === mail && item.pass === pass){
-                loggedIn = true;
-                setLoginUser(item);
+        const fetchData = async () => {
+            const token = await loginDataAdmin(pass);
+            if (token == null) return;
+            if(token !== "failed"){
+                const sections = await getAllSection();
+                navigate("/personal/course/list", {state : {item : {sections}}});
+            }else{
+                alert("E-mail veya şifre hatalı. Tekrar deneyin");
+                setPass("");
             }
-        });
-        if(loggedIn){
-            navigate("/personal/adding", {state : {item : {mail,pass}}});
-        }else{
-            alert("E-mail veya şifre hatalı. Tekrar deneyin");
-            setMail("");
-            setPass("");
+            login(token);
+            
         }
+        fetchData();
+        
     }
     return (<>
         <Form onSubmit={handleUserLogin}>
@@ -44,14 +40,6 @@ export default function PersonalLogin({setLoginPage}) {
                     </Form.Text>
                 </ListGroup.Item>
             </ListGroup>
-            <Form.Group>
-                <Form.Control type="email" placeholder="Enter email" value={mail} onChange={(e) => setMail(e.target.value)}
-                onKeyPress = {event => {
-                    if (event.key === "Enter") {
-                      handleUserLogin(event);
-                    }
-                  }} />
-            </Form.Group>
             <Form.Group>
                 <Form.Control type="password" placeholder="Password" value={pass} onChange={(e) => setPass(e.target.value)} style={{ marginTop: "15px" }}
                 onKeyPress = {event => {
