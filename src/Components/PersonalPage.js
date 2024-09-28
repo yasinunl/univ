@@ -34,7 +34,7 @@ const PersonalPage = () => {
     if(!isLoggedIn){
       navigate("/");
   }
-  },[])
+  },[isLoggedIn, navigate])
   return (
     <Container className="text-center mt-5">
       {/* Card Section */}

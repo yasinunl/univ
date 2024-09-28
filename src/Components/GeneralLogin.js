@@ -10,7 +10,7 @@ export default function GeneralLogin({setLoginPage}) {
     if(isLoggedIn){
       navigate("/student/lect", {state : {item : {user}}});
     }
-  },[])
+  },[isLoggedIn, navigate])
   return (
     <ListGroup variant="flush">
           <ListGroup.Item>
