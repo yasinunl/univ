@@ -16,8 +16,9 @@ export default function StudentLogin({ setLoginPage }) {
         const fetchData = async () => {
             const token = await loginData(pass);
             if (token == null) return;
-            login(token);
+            
             if(token !== "failed"){
+login(token);
                 navigate("/student/lect", {state : {item : {token}}});
             }else{
                 alert("E-mail veya şifre hatalı. Tekrar deneyin");
