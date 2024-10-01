@@ -19,12 +19,13 @@ export default function PersonalLogin({setLoginPage}) {
             if (token == null) return;
             if(token !== "failed"){
                 const sections = await getAllSection();
+login(token);
                 navigate("/personal/course/list", {state : {item : {sections}}});
             }else{
                 alert("E-mail veya şifre hatalı. Tekrar deneyin");
                 setPass("");
             }
-            login(token);
+            
             
         }
         fetchData();
